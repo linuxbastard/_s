@@ -2,22 +2,30 @@
 /**
  * WordPress.com-specific functions and definitions
  *
+ * This file is centrally included from `wp-content/mu-plugins/wpcom-theme-compat.php`.
+ *
  * @package _s
- * @since _s 1.0
  */
-
-global $themecolors;
 
 /**
- * Set a default theme color array for WP.com.
+ * Adds support for wp.com-specific theme functions.
  *
  * @global array $themecolors
- * @since _s 1.0
  */
-$themecolors = array(
-	'bg' => '',
-	'border' => '',
-	'text' => '',
-	'link' => '',
-	'url' => '',
-);
+function _s_wpcom_setup() {
+	global $themecolors;
+
+	// Set theme colors for third party services.
+	if ( ! isset( $themecolors ) ) {
+		// Whitelist wpcom specific variable intended to be overruled.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+		$themecolors = array(
+			'bg'     => '',
+			'border' => '',
+			'text'   => '',
+			'link'   => '',
+			'url'    => '',
+		);
+	}
+}
+add_action( 'after_setup_theme', '_s_wpcom_setup' );
